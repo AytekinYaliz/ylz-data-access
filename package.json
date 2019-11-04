@@ -1,0 +1,24 @@
+{
+  "name": "@ylz/data-access",
+  "version": "1.0.0",
+  "description": "Data Access library for MongoDB",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "scripts": {
+    "precommit": "npm run build",
+    "prebuild": "npm run remove-dist",
+    "build": "tsc",
+    "remove-dist": "rm -rf ./dist",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:fix": "yarn lint -- --fix"
+  },
+  "dependencies": {
+    "@ylz/logger": "git+https://github.com/aytekinyaliz/ylz-logger.git",
+    "@types/mongoose": "5.2.0",
+    "mongoose": "5.4.22"
+  },
+  "devDependencies": {
+    "tslint": "5.10.0",
+    "typescript": "3.5.2"
+  }
+}
