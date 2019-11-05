@@ -13,6 +13,7 @@
     "lint:fix": "yarn lint -- --fix"
   },
   "dependencies": {
+    "@ylz/common": "git+https://github.com/aytekinyaliz/ylz-common.git",
     "@ylz/logger": "git+https://github.com/aytekinyaliz/ylz-logger.git",
     "@types/mongoose": "5.2.0",
     "mongoose": "5.4.22"

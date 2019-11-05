@@ -1,17 +1,15 @@
 import { Model, Query } from "mongoose";
-import logger from "@ylz/logger";
+import * as logger from "@ylz/logger";
+import { Nullable } from "@ylz/common/src/libs/customTypes";
 
 import { IBaseCreateInput } from "../models";
 import { IVersionableCreateInput, IVersionableDeleteInput, IVersionableUpdateInput } from "./models";
-import { Nullable } from "../../libs/customTypes";
-import BaseRepository from "../BaseRepository";
-import IVersionableDocument from "./IVersionableDocument";
-import { generateObjectId } from "../../libs/utilities";
-import { lean } from "../../libs/utilities";
-import { basename } from "path";
+import { BaseRepository } from "../BaseRepository";
+import { IVersionableDocument } from "./IVersionableDocument";
+import { generateObjectId, lean } from "../../libs/utilities";
 
-export default class VersionableRepository<D extends IVersionableDocument> extends BaseRepository<D> {
-  constructor(model) {
+export class VersionableRepository<D extends IVersionableDocument> extends BaseRepository<D> {
+  constructor(model: Model<D>) {
     super(model);
   }
 
@@ -96,6 +94,17 @@ export default class VersionableRepository<D extends IVersionableDocument> exten
     return model.save();
   }
 
+  public count(conditions: any): Query<number> {
+    logger.debug("VersionableRepository - count:", JSON.stringify(conditions));
+
+    const updatedQuery = {
+      deletedAt: null,
+      ...conditions
+    };
+
+    return super.count(updatedQuery);
+  }
+
   protected getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]> {
     logger.debug("VersionableRepository - getAll:", JSON.stringify(conditions));
 
@@ -117,17 +126,6 @@ export default class VersionableRepository<D extends IVersionableDocument> exten
     logger.debug("VersionableRepository - getByIds:", originalIds);
 
     return this.getAll({ originalId: { $in: originalIds } });
-  }
-
-  public count(conditions: any): Query<number> {
-    logger.debug("VersionableRepository - count:", JSON.stringify(conditions));
-
-    const updatedQuery = {
-      deletedAt: null,
-      ...conditions
-    };
-
-    return super.count(updatedQuery);
   }
 
   protected invalidate(originalId: string): Promise<D> {

@@ -1,11 +1,12 @@
 import { Document, Query, Model } from "mongoose";
-import logger from "@ylz/logger";
+import * as common from "@ylz/common";
+import { Nullable } from "@ylz/common/src/libs/customTypes";
+import * as logger from "@ylz/logger";
 
-import { Nullable } from "../libs/customTypes";
-import { clone, generateObjectId, lean, leanObject } from "../libs/utilities";
-import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseGetOneInput, IBaseListInput, IBaseUpdateInput } from "./models";
+import { generateObjectId, lean, leanObject } from "../libs/utilities";
+import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "./models";
 
-export default abstract class BaseRepository<D extends Document> {
+export abstract class BaseRepository<D extends Document> {
   protected model: Model<D>;
 
   constructor(model: Model<D>) {
@@ -25,7 +26,7 @@ export default abstract class BaseRepository<D extends Document> {
   public async list(input: IBaseListInput): Promise<D[]> {
     logger.debug("BaseRepository - list:", JSON.stringify(input));
 
-    const conditions = clone(input);
+    const conditions = common.libs.utilities.clone(input);
 
     delete conditions.limit;
     delete conditions.skip;
@@ -63,6 +64,24 @@ export default abstract class BaseRepository<D extends Document> {
   }
 
   /**
+   * Insert Many
+   * @returns {Documents[]}
+   */
+  public async insertMany(input: IBaseCreateInput[], options?: any | null): Promise<D[]> {
+    logger.debug("BaseRepository - insertMany:", JSON.stringify(input), JSON.stringify(options));
+    const docsToInsert: any = input.map(item => {
+      const id = item.id || generateObjectId();
+      return { ...item, _id: id };
+    });
+    return this.model.insertMany(docsToInsert, options);
+  }
+
+  public count(conditions: any = {}): Query<number> {
+    logger.debug("BaseRepository - count:", JSON.stringify(conditions));
+    return this.model.count(conditions);
+  }
+
+  /**
    * Protected methods for internal use
    */
   protected getById(id: string): Promise<D | null> {
@@ -80,23 +99,5 @@ export default abstract class BaseRepository<D extends Document> {
           .populate(populate)
           .lean()).map(leanObject)
       : (await this.model.find(conditions, projection, options).lean()).map(leanObject);
-  }
-
-  /**
-   * Insert Many
-   * @returns {Documents[]}
-   */
-  public async insertMany(input: IBaseCreateInput[], options?: any | null): Promise<D[]> {
-    logger.debug("BaseRepository - insertMany:", JSON.stringify(input), JSON.stringify(options));
-    const docsToInsert: any = input.map(item => {
-      const id = item.id || generateObjectId();
-      return { ...item, _id: id };
-    });
-    return this.model.insertMany(docsToInsert, options);
-  }
-
-  public count(conditions: any = {}): Query<number> {
-    logger.debug("BaseRepository - count:", JSON.stringify(conditions));
-    return this.model.count(conditions);
   }
 }

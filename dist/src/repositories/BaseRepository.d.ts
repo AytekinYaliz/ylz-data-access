@@ -1,7 +1,7 @@
 import { Document, Query, Model } from "mongoose";
-import { Nullable } from "../libs/customTypes";
+import { Nullable } from "@ylz/common/src/libs/customTypes";
 import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "./models";
-export default abstract class BaseRepository<D extends Document> {
+export declare abstract class BaseRepository<D extends Document> {
     protected model: Model<D>;
     constructor(model: Model<D>);
     get(input: IBaseGetInput): Promise<Nullable<D>>;
@@ -10,9 +10,9 @@ export default abstract class BaseRepository<D extends Document> {
     create(input: IBaseCreateInput): Promise<D>;
     update(input: IBaseUpdateInput): Promise<Nullable<D>>;
     delete(input: IBaseDeleteInput): Promise<Nullable<D>>;
+    insertMany(input: IBaseCreateInput[], options?: any | null): Promise<D[]>;
+    count(conditions?: any): Query<number>;
     protected getById(id: string): Promise<D | null>;
     protected getByIds(ids: string[]): Promise<D[]>;
     protected getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]>;
-    insertMany(input: IBaseCreateInput[], options?: any | null): Promise<D[]>;
-    count(conditions?: any): Query<number>;
 }
