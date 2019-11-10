@@ -1,6 +1,6 @@
 import { Document, Query, Model } from "mongoose";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
-import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "./models";
+import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "../models";
 export declare abstract class BaseRepository<D extends Document> {
     protected model: Model<D>;
     constructor(model: Model<D>);

@@ -3,8 +3,8 @@ import * as common from "@ylz/common";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
 import * as logger from "@ylz/logger";
 
-import { generateObjectId, lean, leanObject } from "../libs/utilities";
-import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "./models";
+import { generateObjectId, lean, leanObject } from "../../libs/utilities";
+import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "../models";
 
 export abstract class BaseRepository<D extends Document> {
   protected model: Model<D>;

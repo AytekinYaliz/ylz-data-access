@@ -1,6 +1,7 @@
-import { Schema } from "mongoose";
+// import { Schema } from "mongoose";
+import { BaseSchema } from "../base/BaseSchema";
 
-export default class VersionableSchema extends Schema {
+export class VersionableSchema extends BaseSchema {
   constructor(options: any, collections: any) {
     const versionedOptions = Object.assign(
       {

@@ -2,7 +2,7 @@ import { Model, Query } from "mongoose";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
 import { IBaseCreateInput } from "../models";
 import { IVersionableCreateInput, IVersionableDeleteInput, IVersionableUpdateInput } from "./models";
-import { BaseRepository } from "../BaseRepository";
+import { BaseRepository } from "../base/BaseRepository";
 import { IVersionableDocument } from "./IVersionableDocument";
 export declare class VersionableRepository<D extends IVersionableDocument> extends BaseRepository<D> {
     constructor(model: Model<D>);

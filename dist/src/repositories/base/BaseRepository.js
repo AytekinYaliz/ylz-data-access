@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const common = require("@ylz/common");
 const logger = require("@ylz/logger");
-const utilities_1 = require("../libs/utilities");
+const utilities_1 = require("../../libs/utilities");
 class BaseRepository {
     constructor(model) {
         this.model = model;
