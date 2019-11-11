@@ -1,3 +1,4 @@
+export { auditSchema } from "./src/repositories/audit/auditSchema";
 export { IAuditDocument } from "./src/repositories/audit/IAuditDocument";
 
 export { IBaseDocument } from "./src/repositories/base/IBaseDocument";
@@ -6,3 +7,4 @@ export { BaseSchema } from "./src/repositories/base/BaseSchema";
 
 export { IVersionableDocument } from "./src/repositories/versionable/IVersionableDocument";
 export { VersionableRepository } from "./src/repositories/versionable/VersionableRepository";
+export { VersionableSchema } from "./src/repositories/versionable/VersionableSchema";
