@@ -1,5 +1,5 @@
 import { Model, Query } from "mongoose";
-import * as logger from "@ylz/logger";
+import { debug } from "@ylz/logger";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
 
 import { IBaseCreateInput } from "../models";
@@ -19,7 +19,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
    * @returns {Application}
    */
   public async create(input: IVersionableCreateInput): Promise<D> {
-    logger.debug("VersionableRepository - create:", JSON.stringify(input));
+    debug("VersionableRepository - create:", JSON.stringify(input));
 
     const id = input.id || String(generateObjectId());
     const create = {
@@ -44,7 +44,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
    * @returns {Documents[]}
    */
   public async insertMany(docs: IBaseCreateInput[], options?: any | null): Promise<D[]> {
-    logger.debug("VersionableRepository - insertMany:");
+    debug("VersionableRepository - insertMany:");
 
     const docsToInsert: any = docs.map(item => {
       const id = item.id || String(generateObjectId());
@@ -60,12 +60,12 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
    * @returns {Application}
    */
   public async update(input: IVersionableUpdateInput): Promise<D> {
-    logger.debug("VersionableRepository - update:", JSON.stringify(input));
+    debug("VersionableRepository - update:", JSON.stringify(input));
 
-    logger.debug("Searching for previous valid object...");
+    debug("Searching for previous valid object...");
     const previous = await this.getById(input.originalId);
 
-    logger.debug("Invalidating previous valid object...");
+    debug("Invalidating previous valid object...");
     await this.invalidate(input.originalId);
 
     const newInstance = Object.assign({}, previous, input);
@@ -73,18 +73,18 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
     delete previous.deletedAt;
     const model = new this.model(newInstance);
 
-    logger.debug("Creating new object...");
+    debug("Creating new object...");
 
     return await model.save();
   }
 
   public async delete(input: IVersionableDeleteInput): Promise<D> {
-    logger.debug("VersionableRepository - delete:", JSON.stringify(input));
+    debug("VersionableRepository - delete:", JSON.stringify(input));
 
-    logger.debug("Searching for previous valid object...");
+    debug("Searching for previous valid object...");
     const previous = await this.getById(input.originalId);
 
-    logger.debug("Invalidating previous valid object...");
+    debug("Invalidating previous valid object...");
     await this.invalidate(input.originalId);
 
     const newId = generateObjectId();
@@ -95,7 +95,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
   }
 
   public count(conditions: any): Query<number> {
-    logger.debug("VersionableRepository - count:", JSON.stringify(conditions));
+    debug("VersionableRepository - count:", JSON.stringify(conditions));
 
     const updatedQuery = {
       deletedAt: null,
@@ -106,7 +106,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
   }
 
   protected getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]> {
-    logger.debug("VersionableRepository - getAll:", JSON.stringify(conditions));
+    debug("VersionableRepository - getAll:", JSON.stringify(conditions));
 
     const updatedQuery = {
       deletedAt: null,
@@ -117,13 +117,13 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
   }
 
   protected getById(originalId: string, populate?: any | null): Promise<Nullable<D>> {
-    logger.debug("VersionableRepository - getById:", originalId, populate);
+    debug("VersionableRepository - getById:", originalId, populate);
 
     return super.getOne({ originalId, deletedAt: null }, populate);
   }
 
   protected getByIds(originalIds: string[]): Promise<D[]> {
-    logger.debug("VersionableRepository - getByIds:", originalIds);
+    debug("VersionableRepository - getByIds:", originalIds);
 
     return this.getAll({ originalId: { $in: originalIds } });
   }

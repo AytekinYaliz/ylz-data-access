@@ -1,14 +1,9 @@
-// import { Schema } from "mongoose";
 import { BaseSchema } from "../base/BaseSchema";
 
 export class VersionableSchema extends BaseSchema {
   constructor(options: any, collections: any) {
     const versionedOptions = Object.assign(
       {
-        originalId: {
-          type: String,
-          required: true
-        },
         createdAt: {
           type: Date,
           required: true,
@@ -17,6 +12,10 @@ export class VersionableSchema extends BaseSchema {
         deletedAt: {
           type: Date,
           default: null
+        },
+        originalId: {
+          type: String,
+          required: true
         }
       },
       options

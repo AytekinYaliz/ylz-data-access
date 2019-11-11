@@ -1,7 +1,7 @@
 import { Document, Query, Model } from "mongoose";
-import * as common from "@ylz/common";
+import { libs } from "@ylz/common";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
-import * as logger from "@ylz/logger";
+import { debug } from "@ylz/logger";
 
 import { generateObjectId, lean, leanObject } from "../../libs/utilities";
 import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "../models";
@@ -14,19 +14,19 @@ export abstract class BaseRepository<D extends Document> {
   }
 
   public async get(input: IBaseGetInput): Promise<Nullable<D>> {
-    logger.debug("BaseRepository - get:", JSON.stringify(input));
+    debug("BaseRepository - get:", JSON.stringify(input));
 
     return this.getById(input.id);
   }
   public getOne(conditions: any, populate?: any | null): Promise<Nullable<D>> {
-    logger.debug("BaseRepository - getOne:", JSON.stringify(conditions), JSON.stringify(populate));
+    debug("BaseRepository - getOne:", JSON.stringify(conditions), JSON.stringify(populate));
     return populate ? lean(this.model.findOne(conditions).populate(populate)) : lean(this.model.findOne(conditions));
   }
 
   public async list(input: IBaseListInput): Promise<D[]> {
-    logger.debug("BaseRepository - list:", JSON.stringify(input));
+    debug("BaseRepository - list:", JSON.stringify(input));
 
-    const conditions = common.libs.utilities.clone(input);
+    const conditions = libs.utilities.clone(input);
 
     delete conditions.limit;
     delete conditions.skip;
@@ -41,7 +41,7 @@ export abstract class BaseRepository<D extends Document> {
   }
 
   public async create(input: IBaseCreateInput): Promise<D> {
-    logger.debug("BaseRepository - create:", JSON.stringify(input));
+    debug("BaseRepository - create:", JSON.stringify(input));
 
     const id = input.id || String(generateObjectId());
 
@@ -52,13 +52,13 @@ export abstract class BaseRepository<D extends Document> {
   }
 
   public async update(input: IBaseUpdateInput): Promise<Nullable<D>> {
-    logger.debug("BaseRepository - update:", JSON.stringify(input));
+    debug("BaseRepository - update:", JSON.stringify(input));
 
     return this.model.findOneAndUpdate({ _id: input.id }, input, { new: true });
   }
 
   public async delete(input: IBaseDeleteInput): Promise<Nullable<D>> {
-    logger.debug("BaseRepository - delete:", JSON.stringify(input));
+    debug("BaseRepository - delete:", JSON.stringify(input));
 
     return this.model.findByIdAndRemove(input.id);
   }
@@ -68,7 +68,7 @@ export abstract class BaseRepository<D extends Document> {
    * @returns {Documents[]}
    */
   public async insertMany(input: IBaseCreateInput[], options?: any | null): Promise<D[]> {
-    logger.debug("BaseRepository - insertMany:", JSON.stringify(input), JSON.stringify(options));
+    debug("BaseRepository - insertMany:", JSON.stringify(input), JSON.stringify(options));
     const docsToInsert: any = input.map(item => {
       const id = item.id || generateObjectId();
       return { ...item, _id: id };
@@ -77,7 +77,7 @@ export abstract class BaseRepository<D extends Document> {
   }
 
   public count(conditions: any = {}): Query<number> {
-    logger.debug("BaseRepository - count:", JSON.stringify(conditions));
+    debug("BaseRepository - count:", JSON.stringify(conditions));
     return this.model.count(conditions);
   }
 
@@ -91,7 +91,7 @@ export abstract class BaseRepository<D extends Document> {
     return this.getAll({ _id: { $in: ids } });
   }
   protected async getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]> {
-    logger.debug("BaseRepository - getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options));
+    debug("BaseRepository - getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options));
 
     return populate
       ? (await this.model

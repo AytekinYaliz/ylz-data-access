@@ -1,4 +1,5 @@
 import { Schema, SchemaDefinition, SchemaOptions } from "mongoose";
+import { generateObjectId } from "../../libs/utilities";
 
 export class BaseSchema extends Schema {
   constructor(definition?: SchemaDefinition, options?: SchemaOptions) {
@@ -7,7 +8,8 @@ export class BaseSchema extends Schema {
       ...{
         _id: {
           type: String,
-          required: true
+          // required: true,
+          default: String(generateObjectId())
         }
       }
     };
