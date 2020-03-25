@@ -130,6 +130,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
 
   protected invalidate(originalId: string): Promise<D> {
     const now = new Date();
+    // @ts-ignore
     return lean(this.model.update({ originalId, deletedAt: null }, { deletedAt: now }));
   }
 }

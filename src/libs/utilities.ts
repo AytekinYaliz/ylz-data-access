@@ -8,7 +8,8 @@ export const generateObjectId = () => mongoose.Types.ObjectId();
 
 export const isValidObjectId = (id: any): boolean => new RegExp("^[0-9a-fA-F]{24}$").test(id);
 
-export async function lean<D extends Document>(document: DocumentQuery<D | null, D>): Promise<D> {
+export async function lean<D extends Document>(document: DocumentQuery<D | null, D>) {
+  //: Promise<D> {
   try {
     return leanObject(await document.lean());
   } catch (err) {

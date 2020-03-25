@@ -1,6 +1,5 @@
 import { Document, Query, Model } from "mongoose";
-import { libs } from "@ylz/common";
-import { Nullable } from "@ylz/common/src/libs/customTypes";
+import { customTypes, utilities } from "@ylz/common";
 import { debug } from "@ylz/logger";
 
 import { generateObjectId, lean, leanObject } from "../../libs/utilities";
@@ -13,12 +12,12 @@ export abstract class BaseRepository<D extends Document> {
     this.model = model;
   }
 
-  public async get(input: IBaseGetInput): Promise<Nullable<D>> {
+  public async get(input: IBaseGetInput): Promise<customTypes.Nullable<D>> {
     debug("BaseRepository - get:", JSON.stringify(input));
 
     return this.getById(input.id);
   }
-  public getOne(conditions: any, populate?: any | null): Promise<Nullable<D>> {
+  public getOne(conditions: any, populate?: any | null): Promise<customTypes.Nullable<D>> {
     debug("BaseRepository - getOne:", JSON.stringify(conditions), JSON.stringify(populate));
     return populate ? lean(this.model.findOne(conditions).populate(populate)) : lean(this.model.findOne(conditions));
   }
@@ -26,7 +25,7 @@ export abstract class BaseRepository<D extends Document> {
   public async list(input: IBaseListInput): Promise<D[]> {
     debug("BaseRepository - list:", JSON.stringify(input));
 
-    const conditions = libs.utilities.clone(input);
+    const conditions = utilities.clone(input);
 
     delete conditions.limit;
     delete conditions.skip;
@@ -51,13 +50,14 @@ export abstract class BaseRepository<D extends Document> {
     });
   }
 
-  public async update(input: IBaseUpdateInput): Promise<Nullable<D>> {
+  public async update(input: IBaseUpdateInput): Promise<customTypes.Nullable<D>> {
     debug("BaseRepository - update:", JSON.stringify(input));
 
+    // @ts-ignore
     return this.model.findOneAndUpdate({ _id: input.id }, input, { new: true });
   }
 
-  public async delete(input: IBaseDeleteInput): Promise<Nullable<D>> {
+  public async delete(input: IBaseDeleteInput): Promise<customTypes.Nullable<D>> {
     debug("BaseRepository - delete:", JSON.stringify(input));
 
     return this.model.findByIdAndRemove(input.id);
@@ -93,11 +93,14 @@ export abstract class BaseRepository<D extends Document> {
   protected async getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]> {
     debug("BaseRepository - getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options));
 
+    // @ts-ignore
     return populate
-      ? (await this.model
-          .find(conditions, projection, options)
-          .populate(populate)
-          .lean()).map(leanObject)
+      ? (
+          await this.model
+            .find(conditions, projection, options)
+            .populate(populate)
+            .lean()
+        ).map(leanObject)
       : (await this.model.find(conditions, projection, options).lean()).map(leanObject);
   }
 }

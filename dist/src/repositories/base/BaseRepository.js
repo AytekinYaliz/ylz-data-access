@@ -28,7 +28,7 @@ class BaseRepository {
     list(input) {
         return __awaiter(this, void 0, void 0, function* () {
             logger_1.debug("BaseRepository - list:", JSON.stringify(input));
-            const conditions = common_1.libs.utilities.clone(input);
+            const conditions = common_1.utilities.clone(input);
             delete conditions.limit;
             delete conditions.skip;
             const options = {

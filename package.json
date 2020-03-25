@@ -15,10 +15,10 @@
   "dependencies": {
     "@ylz/common": "git+https://github.com/aytekinyaliz/ylz-common.git",
     "@ylz/logger": "git+https://github.com/aytekinyaliz/ylz-logger.git",
-    "@types/mongoose": "5.2.0",
-    "mongoose": "5.4.22"
+    "mongoose": "5.9.6"
   },
   "devDependencies": {
+    "@types/mongoose": "5.7.7",
     "tslint": "5.10.0",
     "typescript": "3.5.2"
   }
