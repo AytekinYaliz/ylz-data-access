@@ -7,7 +7,7 @@ exports.auditSchema = {
     },
     createdBy: {
         type: String,
-        required: [true, "Required!"]
+        default: null
     },
     updatedAt: {
         type: Date,
@@ -15,7 +15,7 @@ exports.auditSchema = {
     },
     updatedBy: {
         type: String,
-        required: [true, "Required!"]
+        default: null
     }
 };
 //# sourceMappingURL=auditSchema.js.map

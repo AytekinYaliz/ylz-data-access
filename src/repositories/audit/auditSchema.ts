@@ -5,8 +5,8 @@ export const auditSchema = {
   },
   createdBy: {
     type: String,
-    required: [true, "Required!"]
-    // default: "-"
+    // required: [true, "Required!"]
+    default: null
   },
   updatedAt: {
     type: Date,
@@ -14,6 +14,7 @@ export const auditSchema = {
   },
   updatedBy: {
     type: String,
-    required: [true, "Required!"]
+    // required: [true, "Required!"]
+    default: null
   }
 };

@@ -5,7 +5,7 @@ export declare const auditSchema: {
     };
     createdBy: {
         type: StringConstructor;
-        required: (string | boolean)[];
+        default: any;
     };
     updatedAt: {
         type: DateConstructor;
@@ -13,6 +13,6 @@ export declare const auditSchema: {
     };
     updatedBy: {
         type: StringConstructor;
-        required: (string | boolean)[];
+        default: any;
     };
 };
