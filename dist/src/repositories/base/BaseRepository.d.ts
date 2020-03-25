@@ -6,7 +6,7 @@ export declare abstract class BaseRepository<D extends Document> {
     constructor(model: Model<D>);
     get(input: IBaseGetInput): Promise<customTypes.Nullable<D>>;
     getOne(conditions: any, populate?: any | null): Promise<customTypes.Nullable<D>>;
-    list(input: IBaseListInput): Promise<D[]>;
+    list(input?: IBaseListInput): Promise<D[]>;
     create(input: IBaseCreateInput): Promise<D>;
     update(input: IBaseUpdateInput): Promise<customTypes.Nullable<D>>;
     delete(input: IBaseDeleteInput): Promise<customTypes.Nullable<D>>;

@@ -22,7 +22,7 @@ export abstract class BaseRepository<D extends Document> {
     return populate ? lean(this.model.findOne(conditions).populate(populate)) : lean(this.model.findOne(conditions));
   }
 
-  public async list(input: IBaseListInput): Promise<D[]> {
+  public async list(input: IBaseListInput = {}): Promise<D[]> {
     debug("BaseRepository - list:", JSON.stringify(input));
 
     const conditions = utilities.clone(input);

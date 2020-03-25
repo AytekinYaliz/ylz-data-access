@@ -25,7 +25,7 @@ class BaseRepository {
         logger_1.debug("BaseRepository - getOne:", JSON.stringify(conditions), JSON.stringify(populate));
         return populate ? utilities_1.lean(this.model.findOne(conditions).populate(populate)) : utilities_1.lean(this.model.findOne(conditions));
     }
-    list(input) {
+    list(input = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             logger_1.debug("BaseRepository - list:", JSON.stringify(input));
             const conditions = common_1.utilities.clone(input);
