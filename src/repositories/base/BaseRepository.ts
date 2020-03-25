@@ -76,9 +76,9 @@ export abstract class BaseRepository<D extends Document> {
     return this.model.insertMany(docsToInsert, options);
   }
 
-  public count(conditions: any = {}): Query<number> {
-    debug("BaseRepository - count:", JSON.stringify(conditions));
-    return this.model.count(conditions);
+  public count(criteria: any = {}): Query<number> {
+    debug("BaseRepository - count:", JSON.stringify(criteria));
+    return this.model.countDocuments(criteria);
   }
 
   /**

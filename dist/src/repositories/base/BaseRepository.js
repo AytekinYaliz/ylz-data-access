@@ -68,9 +68,9 @@ class BaseRepository {
             return this.model.insertMany(docsToInsert, options);
         });
     }
-    count(conditions = {}) {
-        logger_1.debug("BaseRepository - count:", JSON.stringify(conditions));
-        return this.model.count(conditions);
+    count(criteria = {}) {
+        logger_1.debug("BaseRepository - count:", JSON.stringify(criteria));
+        return this.model.countDocuments(criteria);
     }
     getById(id) {
         return utilities_1.lean(this.model.findById(id));

@@ -11,7 +11,7 @@ export declare abstract class BaseRepository<D extends Document> {
     update(input: IBaseUpdateInput): Promise<customTypes.Nullable<D>>;
     delete(input: IBaseDeleteInput): Promise<customTypes.Nullable<D>>;
     insertMany(input: IBaseCreateInput[], options?: any | null): Promise<D[]>;
-    count(conditions?: any): Query<number>;
+    count(criteria?: any): Query<number>;
     protected getById(id: string): Promise<D | null>;
     protected getByIds(ids: string[]): Promise<D[]>;
     protected getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]>;
