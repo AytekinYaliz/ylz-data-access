@@ -19,7 +19,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
    * @returns {Application}
    */
   public async create(input: IVersionableCreateInput): Promise<D> {
-    debug("VersionableRepository - create:", JSON.stringify(input));
+    debug("VersionableRepository.create:", JSON.stringify(input));
 
     const id = input.id || String(generateObjectId());
     const create = {
@@ -44,9 +44,9 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
    * @returns {Documents[]}
    */
   public async insertMany(docs: IBaseCreateInput[], options?: any | null): Promise<D[]> {
-    debug("VersionableRepository - insertMany:");
+    debug("VersionableRepository.insertMany:");
 
-    const docsToInsert: any = docs.map(item => {
+    const docsToInsert: any = docs.map((item) => {
       const id = item.id || String(generateObjectId());
       return { ...item, _id: id, originalId: id };
     });
@@ -60,7 +60,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
    * @returns {Application}
    */
   public async update(input: IVersionableUpdateInput): Promise<D> {
-    debug("VersionableRepository - update:", JSON.stringify(input));
+    debug("VersionableRepository.update:", JSON.stringify(input));
 
     debug("Searching for previous valid object...");
     const previous = await this.getById(input.originalId);
@@ -79,7 +79,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
   }
 
   public async delete(input: IVersionableDeleteInput): Promise<D> {
-    debug("VersionableRepository - delete:", JSON.stringify(input));
+    debug("VersionableRepository.delete:", JSON.stringify(input));
 
     debug("Searching for previous valid object...");
     const previous = await this.getById(input.originalId);
@@ -95,7 +95,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
   }
 
   public count(conditions: any): Query<number> {
-    debug("VersionableRepository - count:", JSON.stringify(conditions));
+    debug("VersionableRepository.count:", JSON.stringify(conditions));
 
     const updatedQuery = {
       deletedAt: null,
@@ -106,7 +106,7 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
   }
 
   protected getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]> {
-    debug("VersionableRepository - getAll:", JSON.stringify(conditions));
+    debug("VersionableRepository.getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options), populate);
 
     const updatedQuery = {
       deletedAt: null,
@@ -117,13 +117,13 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
   }
 
   protected getById(originalId: string, populate?: any | null): Promise<Nullable<D>> {
-    debug("VersionableRepository - getById:", originalId, populate);
+    debug("VersionableRepository.getById:", originalId, populate);
 
     return super.getOne({ originalId, deletedAt: null }, populate);
   }
 
   protected getByIds(originalIds: string[]): Promise<D[]> {
-    debug("VersionableRepository - getByIds:", originalIds);
+    debug("VersionableRepository.getByIds:", originalIds);
 
     return this.getAll({ originalId: { $in: originalIds } });
   }

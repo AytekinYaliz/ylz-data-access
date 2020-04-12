@@ -13,17 +13,17 @@ export abstract class BaseRepository<D extends Document> {
   }
 
   public async get(input: IBaseGetInput): Promise<customTypes.Nullable<D>> {
-    debug("BaseRepository - get:", JSON.stringify(input));
+    debug("BaseRepository.get:", JSON.stringify(input));
 
     return this.getById(input.id);
   }
   public getOne(conditions: any, populate?: any | null): Promise<customTypes.Nullable<D>> {
-    debug("BaseRepository - getOne:", JSON.stringify(conditions), JSON.stringify(populate));
+    debug("BaseRepository.getOne:", JSON.stringify(conditions), JSON.stringify(populate));
     return populate ? lean(this.model.findOne(conditions).populate(populate)) : lean(this.model.findOne(conditions));
   }
 
   public async list(input: IBaseListInput = {}): Promise<D[]> {
-    debug("BaseRepository - list:", JSON.stringify(input));
+    debug("BaseRepository.list:", JSON.stringify(input));
 
     const conditions = utilities.clone(input);
 
@@ -40,7 +40,7 @@ export abstract class BaseRepository<D extends Document> {
   }
 
   public async create(input: IBaseCreateInput): Promise<D> {
-    debug("BaseRepository - create:", JSON.stringify(input));
+    debug("BaseRepository.create:", JSON.stringify(input));
 
     const id = input.id || String(generateObjectId());
 
@@ -51,14 +51,14 @@ export abstract class BaseRepository<D extends Document> {
   }
 
   public async update(input: IBaseUpdateInput): Promise<customTypes.Nullable<D>> {
-    debug("BaseRepository - update:", JSON.stringify(input));
+    debug("BaseRepository.update:", JSON.stringify(input));
 
     // @ts-ignore
     return this.model.findOneAndUpdate({ _id: input.id }, input, { new: true });
   }
 
   public async delete(input: IBaseDeleteInput): Promise<customTypes.Nullable<D>> {
-    debug("BaseRepository - delete:", JSON.stringify(input));
+    debug("BaseRepository.delete:", JSON.stringify(input));
 
     return this.model.findByIdAndRemove(input.id);
   }
@@ -68,8 +68,8 @@ export abstract class BaseRepository<D extends Document> {
    * @returns {Documents[]}
    */
   public async insertMany(input: IBaseCreateInput[], options?: any | null): Promise<D[]> {
-    debug("BaseRepository - insertMany:", JSON.stringify(input), JSON.stringify(options));
-    const docsToInsert: any = input.map(item => {
+    debug("BaseRepository.insertMany:", JSON.stringify(input), JSON.stringify(options));
+    const docsToInsert: any = input.map((item) => {
       const id = item.id || generateObjectId();
       return { ...item, _id: id };
     });
@@ -77,7 +77,7 @@ export abstract class BaseRepository<D extends Document> {
   }
 
   public count(criteria: any = {}): Query<number> {
-    debug("BaseRepository - count:", JSON.stringify(criteria));
+    debug("BaseRepository.count:", JSON.stringify(criteria));
     return this.model.countDocuments(criteria);
   }
 
@@ -91,16 +91,11 @@ export abstract class BaseRepository<D extends Document> {
     return this.getAll({ _id: { $in: ids } });
   }
   protected async getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]> {
-    debug("BaseRepository - getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options));
+    debug("BaseRepository.getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options), populate);
 
     // @ts-ignore
     return populate
-      ? (
-          await this.model
-            .find(conditions, projection, options)
-            .populate(populate)
-            .lean()
-        ).map(leanObject)
+      ? (await this.model.find(conditions, projection, options).populate(populate).lean()).map(leanObject)
       : (await this.model.find(conditions, projection, options).lean()).map(leanObject);
   }
 }

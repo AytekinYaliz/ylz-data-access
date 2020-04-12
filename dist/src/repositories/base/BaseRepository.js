@@ -17,17 +17,17 @@ class BaseRepository {
     }
     get(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("BaseRepository - get:", JSON.stringify(input));
+            logger_1.debug("BaseRepository.get:", JSON.stringify(input));
             return this.getById(input.id);
         });
     }
     getOne(conditions, populate) {
-        logger_1.debug("BaseRepository - getOne:", JSON.stringify(conditions), JSON.stringify(populate));
+        logger_1.debug("BaseRepository.getOne:", JSON.stringify(conditions), JSON.stringify(populate));
         return populate ? utilities_1.lean(this.model.findOne(conditions).populate(populate)) : utilities_1.lean(this.model.findOne(conditions));
     }
     list(input = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("BaseRepository - list:", JSON.stringify(input));
+            logger_1.debug("BaseRepository.list:", JSON.stringify(input));
             const conditions = common_1.utilities.clone(input);
             delete conditions.limit;
             delete conditions.skip;
@@ -41,27 +41,27 @@ class BaseRepository {
     }
     create(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("BaseRepository - create:", JSON.stringify(input));
+            logger_1.debug("BaseRepository.create:", JSON.stringify(input));
             const id = input.id || String(utilities_1.generateObjectId());
             return yield this.model.create(Object.assign({ _id: id }, input));
         });
     }
     update(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("BaseRepository - update:", JSON.stringify(input));
+            logger_1.debug("BaseRepository.update:", JSON.stringify(input));
             return this.model.findOneAndUpdate({ _id: input.id }, input, { new: true });
         });
     }
     delete(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("BaseRepository - delete:", JSON.stringify(input));
+            logger_1.debug("BaseRepository.delete:", JSON.stringify(input));
             return this.model.findByIdAndRemove(input.id);
         });
     }
     insertMany(input, options) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("BaseRepository - insertMany:", JSON.stringify(input), JSON.stringify(options));
-            const docsToInsert = input.map(item => {
+            logger_1.debug("BaseRepository.insertMany:", JSON.stringify(input), JSON.stringify(options));
+            const docsToInsert = input.map((item) => {
                 const id = item.id || utilities_1.generateObjectId();
                 return Object.assign({}, item, { _id: id });
             });
@@ -69,7 +69,7 @@ class BaseRepository {
         });
     }
     count(criteria = {}) {
-        logger_1.debug("BaseRepository - count:", JSON.stringify(criteria));
+        logger_1.debug("BaseRepository.count:", JSON.stringify(criteria));
         return this.model.countDocuments(criteria);
     }
     getById(id) {
@@ -80,12 +80,9 @@ class BaseRepository {
     }
     getAll(conditions, projection, options, populate) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("BaseRepository - getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options));
+            logger_1.debug("BaseRepository.getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options), populate);
             return populate
-                ? (yield this.model
-                    .find(conditions, projection, options)
-                    .populate(populate)
-                    .lean()).map(utilities_1.leanObject)
+                ? (yield this.model.find(conditions, projection, options).populate(populate).lean()).map(utilities_1.leanObject)
                 : (yield this.model.find(conditions, projection, options).lean()).map(utilities_1.leanObject);
         });
     }

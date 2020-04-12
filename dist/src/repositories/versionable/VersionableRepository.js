@@ -20,7 +20,7 @@ class VersionableRepository extends BaseRepository_1.BaseRepository {
             create: { get: () => super.create }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("VersionableRepository - create:", JSON.stringify(input));
+            logger_1.debug("VersionableRepository.create:", JSON.stringify(input));
             const id = input.id || String(utilities_1.generateObjectId());
             const create = Object.assign({}, input, { id, originalId: id });
             return _super.create.call(this, create);
@@ -31,8 +31,8 @@ class VersionableRepository extends BaseRepository_1.BaseRepository {
             insertMany: { get: () => super.insertMany }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("VersionableRepository - insertMany:");
-            const docsToInsert = docs.map(item => {
+            logger_1.debug("VersionableRepository.insertMany:");
+            const docsToInsert = docs.map((item) => {
                 const id = item.id || String(utilities_1.generateObjectId());
                 return Object.assign({}, item, { _id: id, originalId: id });
             });
@@ -41,7 +41,7 @@ class VersionableRepository extends BaseRepository_1.BaseRepository {
     }
     update(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("VersionableRepository - update:", JSON.stringify(input));
+            logger_1.debug("VersionableRepository.update:", JSON.stringify(input));
             logger_1.debug("Searching for previous valid object...");
             const previous = yield this.getById(input.originalId);
             logger_1.debug("Invalidating previous valid object...");
@@ -56,7 +56,7 @@ class VersionableRepository extends BaseRepository_1.BaseRepository {
     }
     delete(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            logger_1.debug("VersionableRepository - delete:", JSON.stringify(input));
+            logger_1.debug("VersionableRepository.delete:", JSON.stringify(input));
             logger_1.debug("Searching for previous valid object...");
             const previous = yield this.getById(input.originalId);
             logger_1.debug("Invalidating previous valid object...");
@@ -68,21 +68,21 @@ class VersionableRepository extends BaseRepository_1.BaseRepository {
         });
     }
     count(conditions) {
-        logger_1.debug("VersionableRepository - count:", JSON.stringify(conditions));
+        logger_1.debug("VersionableRepository.count:", JSON.stringify(conditions));
         const updatedQuery = Object.assign({ deletedAt: null }, conditions);
         return super.count(updatedQuery);
     }
     getAll(conditions, projection, options, populate) {
-        logger_1.debug("VersionableRepository - getAll:", JSON.stringify(conditions));
+        logger_1.debug("VersionableRepository.getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options), populate);
         const updatedQuery = Object.assign({ deletedAt: null }, conditions);
         return super.getAll(updatedQuery, projection, options, populate);
     }
     getById(originalId, populate) {
-        logger_1.debug("VersionableRepository - getById:", originalId, populate);
+        logger_1.debug("VersionableRepository.getById:", originalId, populate);
         return super.getOne({ originalId, deletedAt: null }, populate);
     }
     getByIds(originalIds) {
-        logger_1.debug("VersionableRepository - getByIds:", originalIds);
+        logger_1.debug("VersionableRepository.getByIds:", originalIds);
         return this.getAll({ originalId: { $in: originalIds } });
     }
     invalidate(originalId) {
