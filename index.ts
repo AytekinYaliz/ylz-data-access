@@ -9,4 +9,6 @@ export { IVersionableDocument } from "./src/repositories/versionable/IVersionabl
 export { VersionableRepository } from "./src/repositories/versionable/VersionableRepository";
 export { VersionableSchema } from "./src/repositories/versionable/VersionableSchema";
 
-export * from "./src/libs/utilities";
+import * as utilities from "./src/libs/utilities";
+
+export { utilities };
