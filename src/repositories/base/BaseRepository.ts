@@ -60,7 +60,7 @@ export abstract class BaseRepository<D extends Document> {
   public async delete(input: IBaseDeleteInput): Promise<customTypes.Nullable<D>> {
     debug("BaseRepository.delete:", JSON.stringify(input));
 
-    return this.model.findByIdAndRemove(input.id);
+    return this.model.findByIdAndDelete(input.id);
   }
 
   /**

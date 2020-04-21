@@ -55,7 +55,7 @@ class BaseRepository {
     delete(input) {
         return __awaiter(this, void 0, void 0, function* () {
             logger_1.debug("BaseRepository.delete:", JSON.stringify(input));
-            return this.model.findByIdAndRemove(input.id);
+            return this.model.findByIdAndDelete(input.id);
         });
     }
     insertMany(input, options) {
