@@ -43,9 +43,9 @@ class VersionableRepository extends BaseRepository_1.BaseRepository {
         return __awaiter(this, void 0, void 0, function* () {
             logger_1.debug("VersionableRepository.update:", JSON.stringify(input));
             logger_1.debug("Searching for previous valid object...");
-            const previous = yield this.getById(input.originalId);
+            const previous = yield this.getById(input.id);
             logger_1.debug("Invalidating previous valid object...");
-            yield this.invalidate(input.originalId);
+            yield this.invalidate(input.id);
             const newInstance = Object.assign({}, previous, input);
             newInstance["_id"] = utilities_1.generateObjectId();
             delete previous.deletedAt;
@@ -58,9 +58,9 @@ class VersionableRepository extends BaseRepository_1.BaseRepository {
         return __awaiter(this, void 0, void 0, function* () {
             logger_1.debug("VersionableRepository.delete:", JSON.stringify(input));
             logger_1.debug("Searching for previous valid object...");
-            const previous = yield this.getById(input.originalId);
+            const previous = yield this.getById(input.id);
             logger_1.debug("Invalidating previous valid object...");
-            yield this.invalidate(input.originalId);
+            yield this.invalidate(input.id);
             const newId = utilities_1.generateObjectId();
             const newInstance = Object.assign({}, previous, { _id: newId, isSoftDeleted: true });
             const model = new this.model(newInstance);

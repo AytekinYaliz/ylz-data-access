@@ -63,10 +63,10 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
     debug("VersionableRepository.update:", JSON.stringify(input));
 
     debug("Searching for previous valid object...");
-    const previous = await this.getById(input.originalId);
+    const previous = await this.getById(input.id);
 
     debug("Invalidating previous valid object...");
-    await this.invalidate(input.originalId);
+    await this.invalidate(input.id);
 
     const newInstance = Object.assign({}, previous, input);
     newInstance["_id" as string] = generateObjectId();
@@ -82,10 +82,10 @@ export class VersionableRepository<D extends IVersionableDocument> extends BaseR
     debug("VersionableRepository.delete:", JSON.stringify(input));
 
     debug("Searching for previous valid object...");
-    const previous = await this.getById(input.originalId);
+    const previous = await this.getById(input.id);
 
     debug("Invalidating previous valid object...");
-    await this.invalidate(input.originalId);
+    await this.invalidate(input.id);
 
     const newId = generateObjectId();
     const newInstance = Object.assign({}, previous, { _id: newId, isSoftDeleted: true });

@@ -1,3 +1,3 @@
 export interface IBaseInput {
-    id?: string;
+    id: string;
 }
