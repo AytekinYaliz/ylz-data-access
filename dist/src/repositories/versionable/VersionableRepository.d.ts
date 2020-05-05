@@ -1,6 +1,6 @@
 import { Model, Query } from "mongoose";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
-import { IBaseCreateInput } from "../models";
+import { IBaseCreateInput } from "../base/models";
 import { IVersionableCreateInput, IVersionableDeleteInput, IVersionableUpdateInput } from "./models";
 import { BaseRepository } from "../base/BaseRepository";
 import { IVersionableDocument } from "./IVersionableDocument";

@@ -3,7 +3,7 @@ import { customTypes, utilities } from "@ylz/common";
 import { debug } from "@ylz/logger";
 
 import { generateObjectId, lean, leanObject } from "../../libs/utilities";
-import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "../models";
+import { IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseListInput, IBaseUpdateInput } from "./models";
 
 export abstract class BaseRepository<D extends Document> {
   protected model: Model<D>;

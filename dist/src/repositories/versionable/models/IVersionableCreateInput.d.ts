@@ -1,3 +1,3 @@
-import { IBaseCreateInput } from "../../models/IBaseCreateInput";
+import { IBaseCreateInput } from "../../base/models/IBaseCreateInput";
 export interface IVersionableCreateInput extends IBaseCreateInput {
 }
