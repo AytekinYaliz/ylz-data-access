@@ -13,12 +13,8 @@ import * as versionableModels from "./src/repositories/versionable/models";
 
 import * as utilities from "./src/libs/utilities";
 
-const models = {
-  ...baseModels,
-  ...versionableModels
-};
-
 export {
-  models, //
+  baseModels, //
+  versionableModels,
   utilities
 };
